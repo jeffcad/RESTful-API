@@ -32,3 +32,23 @@ app.get('/articles', async (req, res) => {
         res.send(err)
     }
 })
+
+app.post('/articles', async (req, res) => {
+    const { title, content } = req.body
+    const newArticle = new Article({ title, content })
+    try {
+        await newArticle.save()
+        res.send('Article received and added to the database!')
+    } catch (err) {
+        res.send(err)
+    }
+})
+
+app.delete('/articles', async (req, res) => {
+    try {
+        await Article.deleteMany()
+        res.send('All articles deleted!')
+    } catch (err) {
+        res.send(err)
+    }
+})
