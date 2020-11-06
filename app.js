@@ -73,7 +73,17 @@ app.route('/articles/:articleTitle')
             await Article.replaceOne({ title: req.params.articleTitle },
                 { title, content }
             )
-            res.send('Article received and updated in the database!')
+            res.send('Article updated in the database!')
+        } catch (err) {
+            res.send(err)
+        }
+    })
+    .patch(async (req, res) => {
+        try {
+            await Article.updateOne({ title: req.params.articleTitle },
+                { $set: req.body }
+            )
+            res.send('Article updated in the database!')
         } catch (err) {
             res.send(err)
         }
