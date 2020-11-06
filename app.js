@@ -51,3 +51,17 @@ app.route('/articles')
             res.send(err)
         }
     })
+
+app.route('/articles/:articleTitle')
+    .get(async (req, res) => {
+        try {
+            const foundArticle = await Article.findOne({ title: req.params.articleTitle })
+            if (foundArticle) {
+                res.send(foundArticle)
+            } else {
+                res.send(`Sorry, no article matching the title "${req.params.articleTitle}" was found.`)
+            }
+        } catch (err) {
+            res.send(err)
+        }
+    })
