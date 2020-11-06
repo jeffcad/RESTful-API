@@ -55,12 +55,25 @@ app.route('/articles')
 app.route('/articles/:articleTitle')
     .get(async (req, res) => {
         try {
-            const foundArticle = await Article.findOne({ title: req.params.articleTitle })
+            const foundArticle = await Article.findOne(
+                { title: req.params.articleTitle }
+            )
             if (foundArticle) {
                 res.send(foundArticle)
             } else {
                 res.send(`Sorry, no article matching the title "${req.params.articleTitle}" was found.`)
             }
+        } catch (err) {
+            res.send(err)
+        }
+    })
+    .put(async (req, res) => {
+        const { title, content } = req.body
+        try {
+            await Article.replaceOne({ title: req.params.articleTitle },
+                { title, content }
+            )
+            res.send('Article received and updated in the database!')
         } catch (err) {
             res.send(err)
         }
